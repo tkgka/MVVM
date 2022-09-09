@@ -14,6 +14,9 @@
 		F95C792B28CB193B004DBB18 /* MVVMTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F95C792A28CB193B004DBB18 /* MVVMTests.swift */; };
 		F95C793528CB193C004DBB18 /* MVVMUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F95C793428CB193C004DBB18 /* MVVMUITests.swift */; };
 		F95C793728CB193C004DBB18 /* MVVMUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F95C793628CB193C004DBB18 /* MVVMUITestsLaunchTests.swift */; };
+		F95C794728CB1BC0004DBB18 /* testModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F95C794628CB1BC0004DBB18 /* testModel.swift */; };
+		F95C794928CB1C04004DBB18 /* ContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F95C794828CB1C04004DBB18 /* ContentViewController.swift */; };
+		F95C794B28CB3849004DBB18 /* CustomCarousel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F95C794A28CB3849004DBB18 /* CustomCarousel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +47,9 @@
 		F95C793028CB193C004DBB18 /* MVVMUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MVVMUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F95C793428CB193C004DBB18 /* MVVMUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MVVMUITests.swift; sourceTree = "<group>"; };
 		F95C793628CB193C004DBB18 /* MVVMUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MVVMUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		F95C794628CB1BC0004DBB18 /* testModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testModel.swift; sourceTree = "<group>"; };
+		F95C794828CB1C04004DBB18 /* ContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewController.swift; sourceTree = "<group>"; };
+		F95C794A28CB3849004DBB18 /* CustomCarousel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCarousel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,8 +100,10 @@
 		F95C791828CB1937004DBB18 /* MVVM */ = {
 			isa = PBXGroup;
 			children = (
+				F95C794528CB1B5A004DBB18 /* Model */,
+				F95C794328CB1B4C004DBB18 /* View */,
+				F95C794428CB1B52004DBB18 /* ViewModel */,
 				F95C791928CB1937004DBB18 /* MVVMApp.swift */,
-				F95C791B28CB1937004DBB18 /* ContentView.swift */,
 				F95C791D28CB193B004DBB18 /* Assets.xcassets */,
 				F95C791F28CB193B004DBB18 /* Preview Content */,
 			);
@@ -125,6 +133,31 @@
 				F95C793628CB193C004DBB18 /* MVVMUITestsLaunchTests.swift */,
 			);
 			path = MVVMUITests;
+			sourceTree = "<group>";
+		};
+		F95C794328CB1B4C004DBB18 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				F95C791B28CB1937004DBB18 /* ContentView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		F95C794428CB1B52004DBB18 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				F95C794828CB1C04004DBB18 /* ContentViewController.swift */,
+				F95C794A28CB3849004DBB18 /* CustomCarousel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		F95C794528CB1B5A004DBB18 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				F95C794628CB1BC0004DBB18 /* testModel.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -257,8 +290,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F95C794728CB1BC0004DBB18 /* testModel.swift in Sources */,
+				F95C794B28CB3849004DBB18 /* CustomCarousel.swift in Sources */,
 				F95C791C28CB1937004DBB18 /* ContentView.swift in Sources */,
 				F95C791A28CB1937004DBB18 /* MVVMApp.swift in Sources */,
+				F95C794928CB1C04004DBB18 /* ContentViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
