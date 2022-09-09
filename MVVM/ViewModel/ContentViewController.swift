@@ -21,7 +21,6 @@ class ContentViewModel: ObservableObject {
         person.name
     }
     var age: String {
-        //Date를 -> 나이로 변환
         String(person.age)
     }
     var background:Color {
@@ -31,7 +30,6 @@ class ContentViewModel: ObservableObject {
         BG = color
     }
     
-    //이름변경 함수 생성
     func changeName(_ name: String) {
         person.name = name
     }
