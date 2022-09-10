@@ -42,28 +42,30 @@ struct ContentView: View {
                 }
                 
                 // Custom Carousel
-                CustomCarousel(index: $currentIndex, items: testvalues, cardPadding: 150, id: \.self){val,cardSize in
+                CustomCarousel(index: $currentIndex, items: testvalues, spacing: UIScreen.main.bounds.width/3, cardPadding: 150, id: \.self){val,cardSize,IsCardUp in
                     // MARK: your custom cell View
                     Image(uiImage: val.Image)
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                         .frame(width: cardSize.width, height: cardSize.height)
                         .clipShape(RoundedRectangle(cornerRadius: 20,style: .continuous))
-                        .onTapGesture {
-                            viewModel.changeBG(color: val.BGColor)
-                            shouldTransition = false
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                                withAnimation(.easeInOut(duration: 0.5)) {
-                                    background = viewModel.background
-                                    shouldTransition = true
+                        .onChange(of: IsCardUp) { index in
+                            print("changed")
+                            if index != nil{
+                                viewModel.changeBG(color: testvalues[index!].BGColor)
+                                shouldTransition = false
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                                    withAnimation(.easeInOut(duration: 0.5)) {
+                                        background = viewModel.background
+                                        shouldTransition = true
+                                    }
                                 }
                             }
-                            
-                            
                         }
                 }
                 .padding(.horizontal, -15)
                 .padding(.vertical)
+                
                 
             }.padding([.horizontal,.top], 15)
                 .onAppear{

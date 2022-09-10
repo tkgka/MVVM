@@ -7,16 +7,15 @@
 
 import SwiftUI
 
-struct CustomCarousel<Content: View,Item,ID>: View where Item: RandomAccessCollection,ID: Hashable,Item.Element:Equatable{
-    var content: (Item.Element,CGSize)->Content
+struct CustomCarousel<Content: View,Item,ID>: View where Item: RandomAccessCollection, ID: Hashable,Item.Element:Equatable{
+    var content: (Item.Element,CGSize,Int?)->Content
     var id: KeyPath<Item.Element,ID>
-    
     var spacing: CGFloat
     var cardPadding: CGFloat
     @Binding var index:Int
     var items: Item
     
-    init(index:Binding<Int>,items: Item, spacing:CGFloat = 30, cardPadding:CGFloat = 80, id: KeyPath<Item.Element, ID>, @ViewBuilder content: @escaping (Item.Element,CGSize) -> Content){
+    init(index:Binding<Int>,items: Item, spacing:CGFloat = 30, cardPadding:CGFloat = 80, id: KeyPath<Item.Element, ID>, @ViewBuilder content: @escaping (Item.Element,CGSize,Int?) -> Content){
         self.content = content
         self.id = id
         self._index = index
@@ -24,13 +23,15 @@ struct CustomCarousel<Content: View,Item,ID>: View where Item: RandomAccessColle
         self.cardPadding = cardPadding
         self.items = items
     }
+    
+    @StateObject var viewModel = ContentViewModel()
+    
     //MARK: Gesture Properties
     @GestureState var translation:CGFloat = 0
-    @State var offset:CGFloat = 0
+    @State var offset_XIndex:CGFloat = 0
+    @State var offset_YIndex:CGFloat = 0
     @State var lastStoredOffset:CGFloat = 0
-    
     @State var currentIndex:Int = 0
-    @State var rotation:Double = 0
     var body: some View {
         GeometryReader{proxy in
             let size = proxy.size
@@ -38,23 +39,19 @@ struct CustomCarousel<Content: View,Item,ID>: View where Item: RandomAccessColle
             LazyHStack(spacing: spacing){
                 ForEach(items, id: id){val in
                     let index = indexOf(item: val)
-                    content(val,CGSize(width: size.width - cardPadding, height: size.height))
+                    //MARK: return ItemElement, CardSize and whether the card is on upper position
+                    content(val,CGSize(width: size.width - cardPadding, height: size.height), offset_YIndex < 0 && self.index == index ? self.index : nil)
                     //MARK: Rotate each view 5 Deg to make circular looking
-                    
-                        .rotationEffect(.init(degrees: Double(index) * 5), anchor: .bottom)
-                        .rotationEffect(.init(degrees: rotation), anchor: .bottom)
-                    
                         .offset(y: offsetY(index: index, cardWidth: cardWidth))
-                    
                         .frame(width: size.width - cardPadding, height: size.height)
                         .contentShape(Rectangle())
                 }
             }
             .padding(.horizontal, spacing)
-            .offset(x: limitScroll())
+            .offset(x: limitScroll(), y:offset_YIndex)
             .contentShape(Rectangle())
             .gesture(
-                DragGesture(minimumDistance: 5)
+                DragGesture(minimumDistance: 15)
                     .updating($translation, body: {value, out, _ in
                         out = value.translation.width
                     })
@@ -65,7 +62,7 @@ struct CustomCarousel<Content: View,Item,ID>: View where Item: RandomAccessColle
         .padding(.top, 60)
         .onAppear{
             let extraSpace = (cardPadding / 2) - spacing
-            offset = extraSpace
+            offset_XIndex = extraSpace
             lastStoredOffset = extraSpace
         }
         .animation(.easeOut, value: translation == 0)
@@ -95,27 +92,43 @@ struct CustomCarousel<Content: View,Item,ID>: View where Item: RandomAccessColle
     
     func limitScroll () -> CGFloat {
         let extraSpace = (cardPadding / 2) - spacing
-        if index == 0 &&  offset > extraSpace {
-            return extraSpace + (offset / 4)
+        if index == 0 &&  offset_XIndex > extraSpace {
+            return extraSpace + (offset_XIndex / 4)
         }else if index == items.count - 1 && translation < 0 {
-            return offset - (translation / 2)
+            return offset_XIndex - (translation / 2)
         }else {
-            return offset
+            return offset_XIndex
         }
     }
     
     func onChanged(value: DragGesture.Value, cardWidth:CGFloat){
-        let translationX = value.translation.width
-        offset = translationX + lastStoredOffset
         
-        //MARK: calculation Rotation
-        let progress = offset / cardWidth
-        rotation = progress * 5
+        let translationY = value.translation.height
+        if offset_YIndex == 0 {
+            
+            if translationY < -100 {
+                
+                withAnimation(.easeOut(duration: 0.25)){
+                    offset_YIndex = -150
+                }
+            }
+            
+            let translationX = value.translation.width
+            offset_XIndex = translationX + lastStoredOffset
+            
+        }else {
+            if translationY > 100 {
+                withAnimation(.easeOut(duration: 0.25)){
+                    offset_YIndex = 0
+                }
+            }
+        }
+        
     }
     func onEnd(value: DragGesture.Value, cardWidth:CGFloat){
         // MARK: find current Index
         //since index start with 0
-        var _index = (offset/cardWidth).rounded()
+        var _index = (offset_XIndex/cardWidth).rounded()
         _index = max(-CGFloat(items.count-1),_index)
         _index = min(_index, 0)
         currentIndex = Int(_index)
@@ -123,15 +136,14 @@ struct CustomCarousel<Content: View,Item,ID>: View where Item: RandomAccessColle
         index = -currentIndex
         // all data will be Nagative
         
-        withAnimation(.easeOut(duration: 0.25)){
-            // MARK: remove extra space
-            let extraSpace = (cardPadding / 2) - spacing
-            offset = (cardWidth * _index) + extraSpace
-            
-            //MARK: calculation Rotation
-            let progress = offset / cardWidth
-            rotation = (progress * 5).rounded() - 1
-        }
-        lastStoredOffset = offset
+        
+            withAnimation(.easeOut(duration: 0.25)){
+                // MARK: remove extra space
+                let extraSpace = (cardPadding / 2) - spacing
+                offset_XIndex = (cardWidth * _index) + extraSpace
+            }
+        
+        
+        lastStoredOffset = offset_XIndex
     }
 }

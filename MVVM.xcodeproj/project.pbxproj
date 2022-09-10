@@ -37,6 +37,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		F93FB6FD28CB899A00EB1E39 /* BK_CustomCarousel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BK_CustomCarousel.swift; sourceTree = "<group>"; };
 		F95C791628CB1937004DBB18 /* MVVM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MVVM.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F95C791928CB1937004DBB18 /* MVVMApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MVVMApp.swift; sourceTree = "<group>"; };
 		F95C791B28CB1937004DBB18 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -148,6 +149,7 @@
 			children = (
 				F95C794828CB1C04004DBB18 /* ContentViewController.swift */,
 				F95C794A28CB3849004DBB18 /* CustomCarousel.swift */,
+				F93FB6FD28CB899A00EB1E39 /* BK_CustomCarousel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
