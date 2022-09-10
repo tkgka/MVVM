@@ -50,7 +50,6 @@ struct ContentView: View {
                         .frame(width: cardSize.width, height: cardSize.height)
                         .clipShape(RoundedRectangle(cornerRadius: 20,style: .continuous))
                         .onChange(of: IsCardUp) { index in
-                            print("changed")
                             if index != nil{
                                 viewModel.changeBG(color: testvalues[index!].BGColor)
                                 shouldTransition = false
